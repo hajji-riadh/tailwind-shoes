@@ -1,8 +1,12 @@
+import { Nav } from "./components/Nav";
+import { ShoeDetail } from "./components/ShoeDetail";
 
-function App() {
+
+export function App() {
   return (
-    <div className="text-5xl">App</div>
+    <div className="p-10 xl:px-24">
+        <Nav />
+        <ShoeDetail />
+    </div>
   )
 }
-
-export default App
