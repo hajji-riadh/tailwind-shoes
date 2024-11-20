@@ -3,7 +3,7 @@ import { ProductCard } from "../components/ProductCard";
 import { FilterSidebar } from "../components/FilterSidebar";
 import { featuredProducts } from "../data/products";
 import { Filter } from "lucide-react";
-import { useHoverOutside } from "../hooks/useClickOutside";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 export function Products() {
   const [filters, setFilters] = useState({
@@ -16,7 +16,7 @@ export function Products() {
 
   const filterRef = useRef(null);
 
-  useHoverOutside(
+  useClickOutside(
     filterRef,
     () => {
       if (isFilterOpen) {
@@ -24,7 +24,7 @@ export function Products() {
       }
     },
     window.innerWidth >= 1024
-  ); // Only enable hover behavior on desktop
+  ); // Only enable Click behavior on desktop
 
   // Add this new function to filter products
   const getFilteredProducts = () => {
@@ -78,7 +78,7 @@ export function Products() {
               <h2 className="font-bold dark:text-white">Filters</h2>
               <button
                 onClick={() => setIsFilterOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 Click:text-gray-700"
               >
                 ✕
               </button>
