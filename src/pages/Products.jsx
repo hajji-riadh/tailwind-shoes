@@ -3,7 +3,7 @@ import { ProductCard } from "../components/ProductCard";
 import { FilterSidebar } from "../components/FilterSidebar";
 import { featuredProducts } from "../data/products";
 import { Filter } from "lucide-react";
-import { useHoverOutside } from "../hooks/useHoverOutside";
+import { useHoverOutside } from "../hooks/useClickOutside";
 
 export function Products() {
   const [filters, setFilters] = useState({
@@ -11,27 +11,34 @@ export function Products() {
     priceRange: [0, 500],
     sizes: [],
   });
-  
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const filterRef = useRef(null);
 
-  useHoverOutside(filterRef, () => {
-    if (isFilterOpen) {
-      setIsFilterOpen(false);
-    }
-  }, window.innerWidth >= 1024); // Only enable hover behavior on desktop
+  useHoverOutside(
+    filterRef,
+    () => {
+      if (isFilterOpen) {
+        setIsFilterOpen(false);
+      }
+    },
+    window.innerWidth >= 1024
+  ); // Only enable hover behavior on desktop
 
   // Add this new function to filter products
   const getFilteredProducts = () => {
-    return featuredProducts.filter(product => {
+    return featuredProducts.filter((product) => {
       // Filter by category
       if (filters.category !== "all" && product.category !== filters.category) {
         return false;
       }
 
       // Filter by price range
-      if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) {
+      if (
+        product.price < filters.priceRange[0] ||
+        product.price > filters.priceRange[1]
+      ) {
         return false;
       }
 
@@ -60,14 +67,16 @@ export function Products() {
             isFilterOpen ? "fixed" : "hidden"
           } lg:relative lg:block inset-0 z-50 lg:z-0 bg-gray-900/50 lg:bg-transparent animate-fade-in animate-delay-100`}
         >
-          <div 
+          <div
             ref={filterRef}
-            onMouseEnter={() => window.innerWidth >= 1024 && setIsFilterOpen(true)}
+            onMouseEnter={() =>
+              window.innerWidth >= 1024 && setIsFilterOpen(true)
+            }
             className="absolute lg:relative left-0 top-0 h-full w-80 bg-white dark:bg-gray-800 p-4"
           >
             <div className="flex justify-between items-center lg:hidden mb-4">
               <h2 className="font-bold dark:text-white">Filters</h2>
-              <button 
+              <button
                 onClick={() => setIsFilterOpen(false)}
                 className="text-gray-500 hover:text-gray-700"
               >
@@ -84,7 +93,7 @@ export function Products() {
           <p className="mb-4 text-gray-600 dark:text-gray-400">
             Showing {filteredProducts.length} products
           </p>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (
               <ProductCard

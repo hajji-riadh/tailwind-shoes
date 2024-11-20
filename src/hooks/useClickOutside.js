@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 
-export function useHoverOutside(ref, handler, enabled = true) {
+export function useClickOutside(ref, handler) {
   useEffect(() => {
-    if (!enabled) return;
-
     const listener = (event) => {
       if (!ref.current || ref.current.contains(event.target)) {
         return;
@@ -11,12 +9,12 @@ export function useHoverOutside(ref, handler, enabled = true) {
       handler();
     };
 
-    document.addEventListener("mouseover", listener);
+    document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);
 
     return () => {
-      document.removeEventListener("mouseover", listener);
+      document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref, handler, enabled]);
+  }, [ref, handler]);
 }

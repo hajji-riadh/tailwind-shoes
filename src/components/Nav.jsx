@@ -4,43 +4,53 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Moon, Sun } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useHoverOutside } from "../hooks/useHoverOutside";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 const ROUTES = [
   { name: "Home", path: "/" },
   { name: "Products", path: "/products" },
   { name: "Services", path: "/services" },
-  { name: "Contact", path: "/contact" }
+  { name: "Contact", path: "/contact" },
 ];
 
 export function Nav() {
   const menuRef = useRef(null);
   const [isMobileMenuShow, setIsMobileMenuShow] = useState(false);
   const [isDark, setIsDark] = useState(() => {
-    return localStorage.getItem('theme') === 'dark' ||
-      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    return (
+      localStorage.getItem("theme") === "dark" ||
+      (!localStorage.getItem("theme") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
   });
 
   useEffect(() => {
     if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   }, [isDark]);
 
-  useHoverOutside(menuRef, () => {
-    if (isMobileMenuShow) {
-      setIsMobileMenuShow(false);
-    }
-  }, window.innerWidth >= 1024);
+  useClickOutside(
+    menuRef,
+    () => {
+      if (isMobileMenuShow) {
+        setIsMobileMenuShow(false);
+      }
+    },
+    window.innerWidth >= 1024
+  );
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-sm px-4 py-1">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between">
-        <Link to="/" className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
+        <Link
+          to="/"
+          className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+        >
           <NikeLogo className="h-16 w-16 dark:filter dark:invert" />
           <span className="sr-only">Nike Home</span>
         </Link>
@@ -48,7 +58,7 @@ export function Nav() {
         <div className="flex items-center gap-4 lg:order-last">
           <button
             onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-2 focus:ring-blue-500"
+            className="p-2 rounded-full Click:bg-gray-100 dark:Click:bg-gray-800 focus:ring-2 focus:ring-blue-500"
             aria-label="Toggle dark mode"
           >
             {isDark ? (
@@ -58,15 +68,15 @@ export function Nav() {
             )}
           </button>
 
-          <Link 
+          <Link
             to="/cart"
-            className="flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-lg h-12 w-12 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500"
+            className="flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-lg h-12 w-12 Click:bg-gray-100 dark:Click:bg-gray-700 focus:ring-2 focus:ring-blue-500"
             aria-label="Shopping cart"
           >
             <TbShoppingBag size={20} className="dark:text-white" />
           </Link>
 
-          <button 
+          <button
             onClick={() => setIsMobileMenuShow(!isMobileMenuShow)}
             className="lg:hidden p-2 rounded-lg focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700"
           >
@@ -76,7 +86,9 @@ export function Nav() {
 
         <div
           ref={menuRef}
-          onMouseEnter={() => window.innerWidth >= 1024 && setIsMobileMenuShow(true)}
+          onMouseEnter={() =>
+            window.innerWidth >= 1024 && setIsMobileMenuShow(true)
+          }
           className={`${
             isMobileMenuShow ? "block" : "hidden"
           } w-full lg:w-auto lg:block transition-all duration-200 ease-in-out`}
@@ -88,9 +100,10 @@ export function Nav() {
                   to={route.path}
                   className={({ isActive }) => `
                     block px-4 py-2 rounded-md transition-colors duration-200
-                    ${isActive 
-                      ? "bg-blue-500 text-white lg:bg-transparent lg:text-blue-500 dark:lg:text-blue-400" 
-                      : "hover:bg-gray-100 dark:hover:bg-gray-700 lg:hover:text-blue-500 dark:text-gray-200"
+                    ${
+                      isActive
+                        ? "bg-blue-500 text-white lg:bg-transparent lg:text-blue-500 dark:lg:text-blue-400"
+                        : "Click:bg-gray-100 dark:Click:bg-gray-700 lg:Click:text-blue-500 dark:text-gray-200"
                     }
                   `}
                 >
